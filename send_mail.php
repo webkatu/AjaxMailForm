@@ -13,12 +13,15 @@ header('X-Content-Type-Options: nosniff');
 mb_language('japanese');
 mb_internal_encoding('UTF-8');
 
-$origin = preg_replace('/.+:\/\//', '', $_SERVER['HTTP_ORIGIN']);
 //XMLHttpRequest以外からのアクセスやOriginが偽装されているアクセスの処理;
-if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || 
-	$_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest' || 
-	$origin !== $_POST['from']) {
-	die(json_encode(array('result' => false)));
+if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
+	die(json_encode(array('result' => false), JSON_HEX_TAG | JSON_HEX_AOPS | JSON_HEX_QUOT | JSON_HEX_AMP));
+}
+if(isset($_SERVER['HTTP_ORIGIN'])) {
+	$origin = preg_replace('/.+:\/\//', '', $_SERVER['HTTP_ORIGIN']);
+	if($origin !== $_POST['from']) {
+		die(json_encode(array('result' => false), JSON_HEX_TAG | JSON_HEX_AOPS | JSON_HEX_QUOT | JSON_HEX_AMP));
+	}
 }
 
 $name = rm_indention(trim($_POST['name']));
