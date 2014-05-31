@@ -13,25 +13,41 @@ header('X-Content-Type-Options: nosniff');
 mb_language('japanese');
 mb_internal_encoding('UTF-8');
 
-//XMLHttpRequest以外からのアクセス処理;
-if($_SERVER['X_REQUESTED_WITH'] || $_SERVER['X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+//XMLHttpRequest以外からのアクセスやOriginが偽装されているアクセスの処理;
+if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || 
+	$_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest' || 
+	$_SERVER['HTTP_ORIGIN'] !== $_POST['from']) {
 	die(json_encode(array('result' => false)));
 }
 
-$name = trim($_POST['name']);
-$email = trim($_POST['email']);
+$name = rm_indention(trim($_POST['name']));
+$email = rm_indention(trim($_POST['email']));
+$from = rm_indention(trim($_POST['from']));
 $message = trim($_POST['message']);
 
 //nameとmessageはあるか;
 if(isset($name) && isset($message)) {
 	$to = $mail_address;
 	$subject = trim($_POST['subject']);
-	$body = 'Name:' . $name . "\n" . 'Email:' . $email . "\n" . $message;
-	$from = 'From:' . $_POST['from'];
+	$body = 'Name:' . $name . "\n";
+	$body .= 'Email:' . $email . "\n";
+	$body .= "\n" . $message;
+	//メールヘッダ・インジェクション対策;
+	$header = 'From:' . 'mail@' . $from . "\n";
+	if(isset($email)) {
+		$header .= 'Reply-To: $email';
+	}
+	$header .= "MIME-Version: 1.0\n"
+	$parameters = "-f" . $mail_address;
+
 	//メール送信;
-	$success = mb_send_mail($to, $subject, $body, $from);
+	$success = mb_send_mail($to, $subject, $body, $header, $parameters);
 }else {
 	$success = false;
 }
 $response = array('result' => $success);
 echo json_encode($response, JSON_HEX_TAG | JSON_HEX_AOPS | JSON_HEX_QUOT | JSON_HEX_AMP);
+
+function rm_indention($str) {
+	str_replace(array("\r\n", "\r", "\n"), '', $str);
+}

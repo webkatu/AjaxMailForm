@@ -25,7 +25,7 @@
 		(function() {
 			//FormDataを取得し、送信源メールアドレスを追加;
 			var formData = new FormData(form);
-			formData.append('from', 'mail@' + location.host);
+			formData.append('from', location.host);
 
 			xhr.open('POST', server);
 			//カスタムヘッダーをつける;
