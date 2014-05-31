@@ -1,6 +1,6 @@
 (function() {
 
-	var server = ''; //send_mail.phpがあるサーバーのURLを指定設定する;
+	var server = ''; //送信先サーバーのURLを設定する;
 
 	var xhr = new XMLHttpRequest();
 	var form = document.getElementById('mail-form');
