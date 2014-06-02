@@ -27,7 +27,7 @@ $message = trim($_POST['message']);
 if(isset($name) && isset($message)) {
 	$to = $mail_address;
 	$subject = trim($_POST['subject']);
-	$body = 'Referer: ' . $_SERVER['HTTP_REFERER'];
+	$body = 'Referer: ' . $_SERVER['HTTP_REFERER'] . "\n";
 	$body .= 'Name: ' . $name . "\n";
 	$body .= 'Email: ' . $email . "\n";
 	$body .= "\n" . $message;
