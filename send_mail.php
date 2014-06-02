@@ -26,7 +26,7 @@ $message = trim($_POST['message']);
 //nameとmessageがあれば。メール送信;
 if(isset($name) && isset($message)) {
 	$to = $mail_address;
-	$subject = trim($_POST['subject']);
+	$subject = rm_indention(trim($_POST['subject']));
 	$body = 'Referer: ' . $_SERVER['HTTP_REFERER'] . "\n";
 	$body .= 'Name: ' . $name . "\n";
 	$body .= 'Email: ' . $email . "\n";
