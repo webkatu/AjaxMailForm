@@ -4,7 +4,7 @@ $mail_address = ''; //送信先メールアドレスを設定する;
 
 //通信を許可する設定;
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: X-Requested-With');
 //結果はjsonで返す;
 header('Content-Type: application/json; charset=UTF-8');
