@@ -23,7 +23,7 @@
 
 		//サーバーにFormDataを送信;
 		(function() {
-			//FormDataを取得し、送信源サーバーを追加;
+			//FormDataを取得し、送信元サーバーを追加;
 			var formData = new FormData(form);
 			formData.append('from', location.host);
 
