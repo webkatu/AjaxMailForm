@@ -27,12 +27,13 @@ $message = trim($_POST['message']);
 if(isset($name) && isset($message)) {
 	$to = $mail_address;
 	$subject = trim($_POST['subject']);
-	$body = 'Name:' . $name . "\n";
-	$body .= 'Email:' . $email . "\n";
+	$body = 'Referer: ' . $_SERVER['HTTP_REFERER'];
+	$body .= 'Name: ' . $name . "\n";
+	$body .= 'Email: ' . $email . "\n";
 	$body .= "\n" . $message;
-	$header = 'From:' . 'mail@' . $from . "\n";
+	$header = 'From: ' . 'mail@' . $from . "\n";
 	if(isset($email)) {
-		$header .= 'Reply-To:' . $email . "\n";
+		$header .= 'Reply-To: ' . $email . "\n";
 	}
 	$header .= 'MIME-Version: 1.0' . "\n";
 	$parameters = "-f" . $mail_address;
