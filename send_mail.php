@@ -18,13 +18,13 @@ if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
 	die(json_encode(array('result' => false), JSON_HEX_TAG | JSON_HEX_AOPS | JSON_HEX_QUOT | JSON_HEX_AMP));
 }
 
-$name = rm_indention(trim($_POST['name']));
-$email = rm_indention(trim($_POST['email']));
-$from = rm_indention(trim($_POST['from']));
+$name = trim(rm_indention($_POST['name']));
+$email = trim(rm_indention($_POST['email']));
+$from = trim(rm_indention($_POST['from']));
 $message = trim($_POST['message']);
 
 //nameとmessageがあれば。メール送信;
-if(isset($name) && isset($message)) {
+if($name !== '' && $message !== '') {
 	$to = $mail_address;
 	$subject = rm_indention(trim($_POST['subject']));
 	$body = 'Referer: ' . $_SERVER['HTTP_REFERER'] . "\n";
@@ -32,7 +32,7 @@ if(isset($name) && isset($message)) {
 	$body .= 'Email: ' . $email . "\n";
 	$body .= "\n" . $message;
 	$header = 'From: ' . 'mail@' . $from . "\n";
-	if(isset($email)) {
+	if($email !== '') {
 		$header .= 'Reply-To: ' . $email . "\n";
 	}
 	$header .= 'MIME-Version: 1.0' . "\n";
